@@ -6,16 +6,15 @@ from diffusers import StableDiffusionPipeline, DDIMInverseScheduler, DDIMSchedul
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-model_id = '/home/phr/projects/models/hf/sd-dreambooth-library/mr-potato-head'
-# model_id = '../models/hf/google/ddpm-cifar10-32'
+model_id = 'Latent_Diffusion_Model_Path'
 
 
-# 加载 Inversion Scheduler
+# Load Inversion Scheduler
 inverse_sche = DDIMInverseScheduler.from_pretrained(
     model_id, 
     subfolder='scheduler')
 
-# 加载 Pipeline
+# Init Pipeline
 sample_pipe = StableDiffusionPipeline.from_pretrained(
     model_id,
     safety_checker=None,
@@ -61,7 +60,6 @@ class SimpleDDIMScheduler:
 
         inversed_latents = []
         for i, t in tqdm(enumerate(inverse_pipe.scheduler.timesteps)):
-            # 执行逆采样的一步
             with torch.no_grad():
                 noise_pred = inverse_pipe.unet(
                     z, t, encoder_hidden_states=self.encoder_hidden_states).sample
@@ -89,7 +87,6 @@ class SimpleDDIMScheduler:
         
         latents = []
         for i, t in tqdm(enumerate(sample_pipe.scheduler.timesteps)):
-            # 执行采样的一步
             with torch.no_grad():
                 noise_pred = sample_pipe.unet(
                     z, t, encoder_hidden_states=self.encoder_hidden_states).sample
