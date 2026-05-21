@@ -12,7 +12,8 @@ uv pip install -r requirements.txt
 
 ## Datasets
 
-+ use `notebooks/dataprocess.ipynb` for processing the raw triples to KGE
++ dataset paths: `datasets/*`
++ use `notebooks/dataprocess.ipynb` for processing the raw triples to KGEs respectively
 
 
 ## watermarking Pipeline
